@@ -1,5 +1,5 @@
 const book = {
-  test: state => state.book.test
+  bookName: state => state.book.bookName
 }
 
 export default book

@@ -25,6 +25,42 @@
             method: 'default'
           })
           this.rendition.display()
+          this.rendition.on('touchstart', event => {
+            this.touchStartX = event.changedTouches[0].clientX
+            this.touchStartTime = event.timeStamp
+          })
+          this.rendition.on('touchend', event => {
+            const offsetX = event.changedTouches[0].clientX - this.touchStartX
+            const time = event.timeStamp - this.touchStartTime
+          //  当touch间隔500ms以内，offsetX大于40的时候被识别为左滑右滑，其它被识别为点击
+            if (time < 500 && offsetX > 40) {
+              this.toRightEvent()
+            } else if (time < 500 && offsetX < -40) {
+              this.toLeftEvent()
+            } else {
+              this.clickEvent()
+            }
+            event.preventDefault()
+            event.stopPropagation()
+          })
+        },
+        toRightEvent () {
+          this.prevPage()
+        },
+        toLeftEvent () {
+          this.nextPage()
+        },
+        clickEvent () {
+          this.toggleTitlebar()
+        },
+        nextPage () {
+          if (this.rendition) this.rendition.next()
+        },
+        prevPage () {
+          if (this.rendition) this.rendition.prev()
+        },
+        toggleTitlebar () {
+
         }
       },
       mounted () {
@@ -34,7 +70,7 @@
         this.$store.dispatch('setBookName', bookName).then(() => {
             this.initEpub()
           })
-      },
+      }
     }
 </script>
 

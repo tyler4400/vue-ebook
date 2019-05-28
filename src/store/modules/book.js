@@ -10,14 +10,6 @@ const book = {
     'SET_MENUVISIBLE': (state, menuVisible) => {
       state.menuVisible = menuVisible
     }
-  },
-  actions: {
-    setBookName: ({ commit }, bookName) => {
-      return commit('SET_BOOKNAME', bookName)
-    },
-    setMenuVisible: ({ commit }, menuVisible) => {
-      return commit('SET_MENUVISIBLE', menuVisible)
-    }
   }
 }
 

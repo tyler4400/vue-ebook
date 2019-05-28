@@ -14,6 +14,7 @@
       mixins: [ebookMixin],
       methods: {
         initEpub () {
+          // 通过书资源地址初始化阅读器对象
           const bookUrl = 'http://192.168.43.23:8021/epub/' + this.bookName + '.epub'
           this.book = new Epub(bookUrl)
           this.rendition = this.book.renderTo('read', {
@@ -22,6 +23,7 @@
             method: 'default'
           })
           this.rendition.display()
+          // 判定用户手势行为
           this.rendition.on('touchstart', event => {
             this.touchStartX = event.changedTouches[0].clientX
             this.touchStartTime = event.timeStamp
@@ -59,17 +61,17 @@
           if (this.rendition) this.rendition.prev()
         },
         toggleTitleAndMenu () {
-          this.$store.dispatch('setMenuVisible', !this.menuVisible)
+          this.setMenuVisible(!this.menuVisible)// 等于this.$store.dispatch('setMenuVisible', !this.menuVisible)
         },
         isShowTitleAndMenu (flag) {
-          this.$store.dispatch('setMenuVisible', !!flag)
+          this.setMenuVisible(!!flag)
         }
       },
       mounted () {
           /* 1.获取书名参数 */
         const bookName = this.$route.params.bookName.split('|').join('/')
         /* 2.并记录在vuex中,然后初始化阅读器 */
-        this.$store.dispatch('setBookName', bookName).then(() => {
+        this.setBookName(bookName).then(() => {
             this.initEpub()
           })
       }

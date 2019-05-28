@@ -1,29 +1,41 @@
 <template>
-  <transition name="slide-up">
-    <div class="menu-wrapper" :class="{'hide-box-shadow': !menuVisible}" v-show="menuVisible">
-      <div class="icon-wrapper">
-        <span class="icon-menu" @click="showSetting(3)"></span>
+  <div>
+    <transition name="slide-up">
+      <div class="menu-wrapper" :class="{'hide-box-shadow': isHideBoxShadow }" v-show="menuVisible">
+        <div class="icon-wrapper">
+          <span class="icon-menu" @click="toggleSetting(3)"></span>
+        </div>
+        <div class="icon-wrapper">
+          <span class="icon-progress" @click="toggleSetting(2)"></span>
+        </div>
+        <div class="icon-wrapper">
+          <span class="icon-bright" @click="toggleSetting(1)"></span>
+        </div>
+        <div class="icon-wrapper">
+          <span class="icon-A" @click="toggleSetting(0)"></span>
+        </div>
       </div>
-      <div class="icon-wrapper">
-        <span class="icon-progress" @click="showSetting(2)"></span>
-      </div>
-      <div class="icon-wrapper">
-        <span class="icon-bright" @click="showSetting(1)"></span>
-      </div>
-      <div class="icon-wrapper">
-        <span class="icon-A" @click="showSetting(0)"></span>
-      </div>
-    </div>
-  </transition>
+    </transition>
+    <ebook-setting-font></ebook-setting-font>
+  </div>
 </template>
 
 <script>
   import { ebookMixin } from '../../utils/mixin'
+  import EbookSettingFont from './EbookSettingFont'
   export default {
     mixins: [ebookMixin],
+    computed: {
+      isHideBoxShadow () {
+        return (!this.menuVisible) || (this.settingVisible >= 0)
+      }
+    },
+    components: {
+      EbookSettingFont
+    },
     methods: {
-      showSetting (arg) {
-        console.log(arg)
+      toggleSetting (key) {
+        this.settingVisible === key ? this.setSettingVisible(-1) : this.setSettingVisible(key)
       }
     }
   }

@@ -45,11 +45,11 @@
         },
         toRightEvent () {
           this.prevPage()
-          this.isShowTitleAndMenu(false)
+          this.hideTitleAndMenu()
         },
         toLeftEvent () {
           this.nextPage()
-          this.isShowTitleAndMenu(false)
+          this.hideTitleAndMenu()
         },
         clickEvent () {
           this.toggleTitleAndMenu()
@@ -61,10 +61,12 @@
           if (this.rendition) this.rendition.prev()
         },
         toggleTitleAndMenu () {
+          if (this.menuVisible) this.setSettingVisible(-1)
           this.setMenuVisible(!this.menuVisible)// 等于this.$store.dispatch('setMenuVisible', !this.menuVisible)
         },
-        isShowTitleAndMenu (flag) {
-          this.setMenuVisible(!!flag)
+        hideTitleAndMenu () {
+          this.setMenuVisible(false)
+          this.setSettingVisible(-1)
         }
       },
       mounted () {

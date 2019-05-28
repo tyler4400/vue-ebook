@@ -1,7 +1,7 @@
 # vue-ebook
 
 ## Project setup
-```
+```$cmd
 npm install
 ```
 
@@ -29,6 +29,7 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## 本地静态资源服务器
+
 1. 安装nginx
 2. 修改配置文件`nginx-1.17.0\conf\nginx.conf`
 ```$xslt

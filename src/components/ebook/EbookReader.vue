@@ -6,15 +6,12 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { ebookMixin } from '../../utils/mixin'
     import Epub from 'epubjs'
     global.ePub = Epub // 这行代码的含义是指在全局对象中添加一个epub属性，这个属性的值为Epub模块，这样做的目的是epubjs库中会直接从global中获取epub，如果不加会抛异常，在新版本的epubjs中已经修复这个问题了
 
     export default {
-      name: 'EbookReader',
-      computed: {
-        ...mapGetters(['bookName'])
-      },
+      mixins: [ebookMixin],
       methods: {
         initEpub () {
           const bookUrl = 'http://192.168.43.23:8021/epub/' + this.bookName + '.epub'
@@ -46,12 +43,14 @@
         },
         toRightEvent () {
           this.prevPage()
+          this.isShowTitleAndMenu(false)
         },
         toLeftEvent () {
           this.nextPage()
+          this.isShowTitleAndMenu(false)
         },
         clickEvent () {
-          this.toggleTitlebar()
+          this.toggleTitleAndMenu()
         },
         nextPage () {
           if (this.rendition) this.rendition.next()
@@ -59,8 +58,11 @@
         prevPage () {
           if (this.rendition) this.rendition.prev()
         },
-        toggleTitlebar () {
-
+        toggleTitleAndMenu () {
+          this.$store.dispatch('setMenuVisible', !this.menuVisible)
+        },
+        isShowTitleAndMenu (flag) {
+          this.$store.dispatch('setMenuVisible', !!flag)
         }
       },
       mounted () {

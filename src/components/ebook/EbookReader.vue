@@ -25,11 +25,11 @@
           })
           this.rendition.display()
           // 判定用户手势行为
-          this.rendition.on('touchstart', event => {
+          this.rendition.on('touchstart', event => {console.log(event)
             this.touchStartX = event.changedTouches[0].clientX
             this.touchStartTime = event.timeStamp
           })
-          this.rendition.on('touchend', event => {
+          this.rendition.on('touchend', event => {console.log(event)
             const offsetX = event.changedTouches[0].clientX - this.touchStartX
             const time = event.timeStamp - this.touchStartTime
           //  当touch间隔500ms以内，offsetX大于40的时候被识别为左滑右滑，其它被识别为点击

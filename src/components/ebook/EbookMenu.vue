@@ -2,17 +2,17 @@
   <div>
     <transition name="slide-up">
       <div class="menu-wrapper" :class="{'hide-box-shadow': isHideBoxShadow }" v-show="menuVisible">
-        <div class="icon-wrapper">
-          <span class="icon-menu" @click="toggleSetting(3)"></span>
+        <div class="icon-wrapper" @click="toggleSetting(3)">
+          <span class="icon-menu"></span>
         </div>
-        <div class="icon-wrapper">
-          <span class="icon-progress" @click="toggleSetting(2)"></span>
+        <div class="icon-wrapper" @click="toggleSetting(2)">
+          <span class="icon-progress"></span>
         </div>
-        <div class="icon-wrapper">
-          <span class="icon-bright" @click="toggleSetting(1)"></span>
+        <div class="icon-wrapper" @click="toggleSetting(1)">
+          <span class="icon-bright"></span>
         </div>
-        <div class="icon-wrapper">
-          <span class="icon-A" @click="toggleSetting(0)"></span>
+        <div class="icon-wrapper" @click="toggleSetting(0)">
+          <span class="icon-A"></span>
         </div>
       </div>
     </transition>

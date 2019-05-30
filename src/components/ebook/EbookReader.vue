@@ -17,6 +17,7 @@
           // 通过书资源地址初始化阅读器对象
           const bookUrl = 'http://192.168.43.23:8021/epub/' + this.bookName + '.epub'
           this.book = new Epub(bookUrl)
+          this.setCurrentBook(this.book)
           this.rendition = this.book.renderTo('read', {
             width: innerWidth,
             height: innerHeight,

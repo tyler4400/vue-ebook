@@ -32,7 +32,8 @@
     },
     methods: {
       setFontSize (fontSize) {
-        console.log(fontSize)
+        this.setDefaultFontSize(fontSize)
+        this.currentBook.rendition.themes.fontSize(fontSize)
       },
 
     },

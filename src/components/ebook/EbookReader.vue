@@ -8,6 +8,13 @@
 <script>
     import { ebookMixin } from '../../utils/mixin'
     import Epub from 'epubjs'
+    import {
+      setFontFamily,
+      getFontFamily,
+      setFontSize,
+      getFontSize
+    } from '../../utils/localStorage'
+
     global.ePub = Epub // 这行代码的含义是指在全局对象中添加一个epub属性，这个属性的值为Epub模块，这样做的目的是epubjs库中会直接从global中获取epub，如果不加会抛异常，在新版本的epubjs中已经修复这个问题了
 
     export default {
@@ -23,7 +30,10 @@
             height: innerHeight,
             method: 'default'
           })
-          this.rendition.display()
+          this.rendition.display().then(() => {
+            this.initFontSize()
+            this.initFontFamily()
+          })
           // 判定用户手势行为
           this.rendition.on('touchstart', event => {
             this.touchStartX = event.changedTouches[0].clientX
@@ -53,6 +63,24 @@
               console.log('字体全部加载完毕')
             })
           })
+        },
+        initFontSize () {
+          let fontSize = getFontSize(this.bookName)
+          if (fontSize) {
+            this.rendition.themes.fontSize(fontSize)
+            this.setDefaultFontSize(fontSize)
+          } else {
+            setFontSize(this.bookName, this.fontSize)
+          }
+        },
+        initFontFamily () {
+          let font = getFontFamily(this.bookName)
+          if (font) {
+            this.rendition.themes.font(font)
+            this.setDefaultFontFamily(font)
+          } else {
+            setFontFamily(this.bookName, this.defaultFontFamily)
+          }
         },
         toRightEvent () {
           this.prevPage()

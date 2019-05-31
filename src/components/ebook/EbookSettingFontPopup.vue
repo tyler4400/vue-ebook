@@ -22,6 +22,7 @@
 <script>
   import { ebookMixin } from '../../utils/mixin'
   import { FONT_FAMILY } from '../../utils/book'
+  import { setFontFamily } from '../../utils/localStorage'
   export default {
     mixins: [ebookMixin],
     data () {
@@ -35,6 +36,7 @@
       },
       setFontFamily (fontFamily) {
         this.setDefaultFontFamily(fontFamily)
+        setFontFamily(this.bookName, fontFamily)
         this.currentBook.rendition.themes.font(fontFamily)
       },
       isSelected (item) {

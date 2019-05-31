@@ -35,7 +35,7 @@
     mixins: [ebookMixin],
     data () {
       return {
-        fontSizeList: FONT_SIZE_LIST,
+        fontSizeList: FONT_SIZE_LIST
       }
     },
     methods: {
@@ -45,8 +45,8 @@
       },
       showFontFamilyPopup () {
         this.setFontFamilyVisible(true)
-      },
-    },
+      }
+    }
   }
 </script>
 

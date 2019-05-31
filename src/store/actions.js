@@ -50,10 +50,10 @@ export default {
   setPagelist: ({ commit }, pagelist) => {
     return commit('SET_PAGELIST', pagelist)
   },
-  setIsBookmark({ commit }, isBookmark) {
+  setIsBookmark ({ commit }, isBookmark) {
     return commit('SET_IS_BOOKMARK', isBookmark)
   },
-  setOffsetY({ commit }, offsetY) {
+  setOffsetY ({ commit }, offsetY) {
     return commit('SET_OFFSETY', offsetY)
   }
 }

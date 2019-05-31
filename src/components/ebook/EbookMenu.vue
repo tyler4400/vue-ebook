@@ -34,7 +34,7 @@
     },
     components: {
       EbookSettingFont,
-      EbookSettingFontPopup,
+      EbookSettingFontPopup
     },
     methods: {
       toggleSetting (key) {

@@ -15,7 +15,7 @@
       methods: {
         initEpub () {
           // 通过书资源地址初始化阅读器对象
-          const bookUrl = 'http://192.168.43.23:8021/epub/' + this.bookName + '.epub'
+          const bookUrl = process.env.VUE_APP_RES_URL + '/epub/' + this.bookName + '.epub'
           this.book = new Epub(bookUrl)
           this.setCurrentBook(this.book)
           this.rendition = this.book.renderTo('read', {
@@ -43,6 +43,16 @@
             event.preventDefault()
             event.stopPropagation()
           })
+          this.rendition.hooks.content.register(contents => {
+            Promise.all([
+              contents.addStylesheet(process.env.VUE_APP_RES_URL + '/fonts/daysOne.css'),
+              contents.addStylesheet(process.env.VUE_APP_RES_URL + '/fonts/cabin.css'),
+              contents.addStylesheet(process.env.VUE_APP_RES_URL + '/fonts/montserrat.css'),
+              contents.addStylesheet(process.env.VUE_APP_RES_URL + '/fonts/tangerine.css')
+            ]).then(() => {
+              console.log('字体全部加载完毕')
+            })
+          })
         },
         toRightEvent () {
           this.prevPage()
@@ -62,12 +72,15 @@
           if (this.rendition) this.rendition.prev()
         },
         toggleTitleAndMenu () {
-          if (this.menuVisible) this.setSettingVisible(-1)
+          if (!this.menuVisible) this.initMenuParams() // 在menu被关掉时它的一些变量并没有被重置，所以每次打开menu的时候需要初始化一下menu的变量
           this.setMenuVisible(!this.menuVisible)// 等于this.$store.dispatch('setMenuVisible', !this.menuVisible)
         },
         hideTitleAndMenu () {
           this.setMenuVisible(false)
+        },
+        initMenuParams () {
           this.setSettingVisible(-1)
+          this.setFontFamilyVisible(false)
         }
       },
       mounted () {

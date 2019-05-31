@@ -9,9 +9,9 @@ export const FONT_SIZE_LIST = [
 ]
 
 export const FONT_FAMILY = [
-  { font: 'Default' },
-  { font: 'Cabin' },
-  { font: 'Days One' },
-  { font: 'Montserrat' },
-  { font: 'Tangerine' }
+  { fontName: 'Default', font: 'Times New Roman' },
+  { fontName: 'Cabin', font: 'Cabin' },
+  { fontName: 'Days One', font: 'Days One' },
+  { fontName: 'Montserrat', font: 'Montserrat' },
+  { fontName: 'Tangerine', font: 'Tangerine' }
 ]

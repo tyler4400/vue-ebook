@@ -12,7 +12,9 @@
       setFontFamily,
       getFontFamily,
       setFontSize,
-      getFontSize
+      getFontSize,
+      getTheme,
+      setTheme
     } from '../../utils/localStorage'
 
     global.ePub = Epub // 这行代码的含义是指在全局对象中添加一个epub属性，这个属性的值为Epub模块，这样做的目的是epubjs库中会直接从global中获取epub，如果不加会抛异常，在新版本的epubjs中已经修复这个问题了
@@ -30,7 +32,9 @@
             height: innerHeight,
             method: 'default'
           })
+          // 初始化一些设置数据
           this.rendition.display().then(() => {
+            this.initTheme()
             this.initFontSize()
             this.initFontFamily()
           })
@@ -53,6 +57,7 @@
             event.preventDefault()
             event.stopPropagation()
           })
+          // 注册字体
           this.rendition.hooks.content.register(contents => {
             Promise.all([
               contents.addStylesheet(process.env.VUE_APP_RES_URL + '/fonts/daysOne.css'),
@@ -80,6 +85,20 @@
             this.setDefaultFontFamily(font)
           } else {
             setFontFamily(this.bookName, this.defaultFontFamily)
+          }
+        },
+        initTheme () {
+          let theme = getTheme(this.bookName)
+          this.themeList.forEach(theme => {
+            this.rendition.themes.register(theme.name, theme.style)
+          })
+          if (theme) {
+            this.setDefaultTheme(theme).then(() => {
+              this.rendition.themes.select(this.defaultTheme)
+            })
+          } else {
+            setTheme(this.bookName, this.defaultTheme)
+            this.rendition.themes.select(this.defaultTheme)
           }
         },
         toRightEvent () {

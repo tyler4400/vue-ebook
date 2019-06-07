@@ -37,6 +37,7 @@
             this.initTheme()
             this.initFontSize()
             this.initFontFamily()
+            this.setGlobalStyle()
           })
           // 判定用户手势行为
           this.rendition.on('touchstart', event => {

@@ -60,3 +60,21 @@ export function themeList (vue) {
     }
   ]
 }
+export function setGlobalTheme (href) {
+  let link = document.getElementById('globalTheme')
+  if (link) {
+    link.setAttribute('href', href)
+  } else {
+    link = document.createElement('link')
+    link.setAttribute('id', 'globalTheme')
+    link.setAttribute('rel', 'stylesheet')
+    link.setAttribute('type', 'text/css')
+    link.setAttribute('href', href)
+    document.getElementsByTagName('head')[0].appendChild(link)
+  }
+}
+
+// export function removeGlobalTHeme () {
+//   const link = document.getElementById('globalTheme')
+//   if (link) link.parentNode.removeChild(link)
+// }

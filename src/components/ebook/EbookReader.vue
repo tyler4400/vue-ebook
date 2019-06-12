@@ -27,6 +27,17 @@
           const bookUrl = process.env.VUE_APP_RES_URL + '/epub/' + this.bookName + '.epub'
           this.book = new Epub(bookUrl)
           this.setCurrentBook(this.book)
+          this.initRendition()
+          this.initGesture()
+          this.book.ready.then(() => { // 当book全部被解析完成之后会调用ready
+            return this.book.locations.generate(this.getPages())
+          }).then(locations => {
+            // console.log(locations)
+            // 此时就可以认为book资源已经可用，意味着可以获取书的所有信息
+            this.setBookAvailable(true)
+          })
+        },
+        initRendition () {
           this.rendition = this.book.renderTo('read', {
             width: innerWidth,
             height: innerHeight,
@@ -39,25 +50,6 @@
             this.initFontFamily()
             this.setGlobalStyle()
           })
-          // 判定用户手势行为
-          this.rendition.on('touchstart', event => {
-            this.touchStartX = event.changedTouches[0].clientX
-            this.touchStartTime = event.timeStamp
-          })
-          this.rendition.on('touchend', event => {
-            const offsetX = event.changedTouches[0].clientX - this.touchStartX
-            const time = event.timeStamp - this.touchStartTime
-          //  当touch间隔500ms以内，offsetX大于40的时候被识别为左滑右滑，其它被识别为点击
-            if (time < 500 && offsetX > 40) {
-              this.toRightEvent()
-            } else if (time < 500 && offsetX < -40) {
-              this.toLeftEvent()
-            } else {
-              this.clickEvent()
-            }
-            event.preventDefault()
-            event.stopPropagation()
-          })
           // 注册字体
           this.rendition.hooks.content.register(contents => {
             Promise.all([
@@ -68,6 +60,27 @@
             ]).then(() => {
               console.log('字体全部加载完毕')
             })
+          })
+        },
+        initGesture () {
+          // 判定用户手势行为
+          this.rendition.on('touchstart', event => {
+            this.touchStartX = event.changedTouches[0].clientX
+            this.touchStartTime = event.timeStamp
+          })
+          this.rendition.on('touchend', event => {
+            const offsetX = event.changedTouches[0].clientX - this.touchStartX
+            const time = event.timeStamp - this.touchStartTime
+            //  当touch间隔500ms以内，offsetX大于40的时候被识别为左滑右滑，其它被识别为点击
+            if (time < 500 && offsetX > 40) {
+              this.toRightEvent()
+            } else if (time < 500 && offsetX < -40) {
+              this.toLeftEvent()
+            } else {
+              this.clickEvent()
+            }
+            event.preventDefault()
+            event.stopPropagation()
           })
         },
         initFontSize () {
@@ -129,6 +142,10 @@
         initMenuParams () {
           this.setSettingVisible(-1)
           this.setFontFamilyVisible(false)
+        },
+        getPages () {
+          // 首先这个不精确。认为每页750个字，然后根据屏幕宽度和字体进行微调。除以每页字数就是分页情况
+          return 750 * (window.innerWidth / 375) * (getFontSize(this.bookName) / 16)
         }
       },
       mounted () {

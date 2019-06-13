@@ -47,14 +47,30 @@
     },
     methods: {
       onProgressChange (progress) {
-
+        this.setProgress(progress).then(() => {
+          this.applyProgress()
+        })
       },
       onProgressInput (progress) {
-
+        // 实时更新进度条和页面内容，耗费计算，可根据实际业务需求来判断是否需要。另外，onProgressInput和onProgressChange可合并为一个
+        this.setProgress(progress).then(() => {
+          this.applyProgress()
+        })
       },
       getReadTimeText () {
 
+      },
+      applyProgress () {
+        const cfi = this.currentBook.locations.cfiFromPercentage(this.progress / 100)
+        this.currentBook.rendition.display(cfi)
+        this.updateProgressBg() // 设置进度条已读的颜色
+      },
+      updateProgressBg () {
+        this.$refs.progress.style.backgroundSize = `${this.progress}% 100%`
       }
+    },
+    updated () {
+      this.updateProgressBg()
     }
   }
 </script>

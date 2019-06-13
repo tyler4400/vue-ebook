@@ -14,7 +14,8 @@
       setFontSize,
       getFontSize,
       getTheme,
-      setTheme
+      setTheme,
+      getLocation
     } from '../../utils/localStorage'
 
     global.ePub = Epub // 这行代码的含义是指在全局对象中添加一个epub属性，这个属性的值为Epub模块，这样做的目的是epubjs库中会直接从global中获取epub，如果不加会抛异常，在新版本的epubjs中已经修复这个问题了
@@ -35,6 +36,7 @@
             // console.log(locations)
             // 此时就可以认为book资源已经可用，意味着可以获取书的所有信息
             this.setBookAvailable(true)
+            this.refreshLocation()
           })
         },
         initRendition () {
@@ -44,7 +46,8 @@
             method: 'default'
           })
           // 初始化一些设置数据
-          this.rendition.display().then(() => {
+          const location = getLocation(this.bookName)
+          this.display(location, () => {
             this.initTheme()
             this.initFontSize()
             this.initFontFamily()

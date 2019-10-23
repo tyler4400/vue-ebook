@@ -50,3 +50,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     }
 ```
 3. 运行 .exe
+
+## 访问
+http://192.168.43.23:8080/#/ebook/History|2017_Book_OneHundredYearsOfChemicalWarfa
